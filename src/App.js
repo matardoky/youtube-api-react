@@ -1,14 +1,14 @@
 import React from 'react'
 import { Grid } from '@mui/material';
 
-import { SearchBar, VideoDetail} from './components'
+import { SearchBar, VideoDetail, VideoList} from './components'
 import youtube from './api/youtube'
 
 class App extends React.Component {
     
 
     state= {
-        video:[], 
+        videos:[], 
         selectedVideo: null, 
     }
     handleSubmit = async (searchTerm) => {
@@ -16,13 +16,21 @@ class App extends React.Component {
         console.log(res.data.items)
 
         this.setState({
-            video: res.data.items,
+            videos: res.data.items,
             selectedVideo:res.data.items[0]
         })
     } 
+
+    onVideoSelect = (video) => {
+        this.setState({
+            selectedVideo:video
+        })
+    }
+
     render() {
 
         const {selectedVideo} = this.state
+        const { videos } = this.state
 
         return(
             <Grid  container spacing={16}>
@@ -35,7 +43,7 @@ class App extends React.Component {
                 </Grid>
     
                 <Grid item xs={4}>
-                   {/* VIDEO lIST */}
+                   <VideoList videos={videos} onVideoSelect={this.onVideoSelect}/>
                 </Grid>
     
             </Grid>
